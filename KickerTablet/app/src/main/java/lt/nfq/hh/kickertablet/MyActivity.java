@@ -13,13 +13,12 @@ import com.octo.android.robospice.persistence.exception.SpiceException;
 import com.octo.android.robospice.request.listener.RequestListener;
 
 import lt.nfq.hh.kickertablet.Api.Framework.Service;
-import lt.nfq.hh.kickertablet.Api.Framework.StatusRequest;
-import lt.nfq.hh.kickertablet.Api.Model.Status;
+import lt.nfq.hh.kickertablet.Api.Network.Status;
 
 public class MyActivity extends Activity {
     private SpiceManager spiceManager = new SpiceManager(Service.class);
     private TextView mTextView;
-    private StatusRequest statusRequest;
+    private Status.Request statusRequest;
 
     @Override
     protected void onStart() {
@@ -45,10 +44,10 @@ public class MyActivity extends Activity {
         mTextView = (TextView) findViewById(R.id.text);
 
 
-        statusRequest = new StatusRequest();
+        statusRequest = new Status.Request();
     }
 
-    private void updateStatus(final Status result) {
+    private void updateStatus(final Status.Model result) {
         String originalText = getString(R.string.default_text);
 
         mTextView.setText(
@@ -78,14 +77,14 @@ public class MyActivity extends Activity {
     }
 
 
-    public final class StatusRequestListener implements RequestListener<Status> {
+    public final class StatusRequestListener implements RequestListener<Status.Model> {
         @Override
         public void onRequestFailure(SpiceException spiceException) {
             Toast.makeText(MyActivity.this, "failure", Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onRequestSuccess(final Status result) {
+        public void onRequestSuccess(final Status.Model result) {
             Toast.makeText(MyActivity.this, "success", Toast.LENGTH_SHORT).show();
             updateStatus(result);
         }
